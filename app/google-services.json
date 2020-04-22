@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1015610107610",
+    "firebase_url": "https://u-lock.firebaseio.com",
+    "project_id": "u-lock",
+    "storage_bucket": "u-lock.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1015610107610:android:050ab068157462a73a67e3",
+        "android_client_info": {
+          "package_name": "com.example.smartlock"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1015610107610-vq2nt3p2m1v7jkv0bvlfl9fc108l2mgr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA5MCS5VRtRB3CqGMwi8FgsWhvhP7PKyz4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1015610107610-vq2nt3p2m1v7jkv0bvlfl9fc108l2mgr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
