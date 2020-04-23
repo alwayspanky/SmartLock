@@ -14,6 +14,7 @@ public class MainActivity extends AppCompatActivity {
 
     private Button lock, unlock;
     Blockchain blockchain;
+    Block block;
 
     DatabaseReference databaseReference;
 
@@ -30,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 FirebaseDatabase database = FirebaseDatabase.getInstance();
-                databaseReference = database.getReference("u-lock");
+                databaseReference = database.getReference("u-lock").child("lock-value");
                 databaseReference.setValue(1);
 
             }
