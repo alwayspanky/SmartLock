@@ -22,7 +22,7 @@ public class Blockchain {
     }
 
     public Block latestBlock() {
-        return blocks.get(blocks.size() - 1);
+        return blocks.get(blocks.size());
     }
 
     public Block newBlock(String data) {
