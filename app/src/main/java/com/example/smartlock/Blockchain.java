@@ -11,10 +11,10 @@ public class Blockchain {
     public Blockchain(int difficulty) {
         this.difficulty = difficulty;
         blocks = new ArrayList<>();
-//        // create the first block
-//        Block b = new Block(0, System.currentTimeMillis(), null, "First Block");
-//        b.mineBlock(difficulty);
-//        blocks.add(b);
+        // create the first block
+        Block b = new Block(0, System.currentTimeMillis(), null, "First Block");
+        b.mineBlock(difficulty);
+        blocks.add(b);
     }
 
     public int getDifficulty() {
@@ -22,7 +22,7 @@ public class Blockchain {
     }
 
     public Block latestBlock() {
-        return blocks.get(blocks.size());
+        return blocks.get(blocks.size() - 1);
     }
 
     public Block newBlock(String data) {

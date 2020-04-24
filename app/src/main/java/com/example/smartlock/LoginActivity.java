@@ -9,8 +9,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -45,9 +47,21 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
 
-                        Intent logIntent =  new Intent(LoginActivity.this, MainActivity.class);
-                        logIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        startActivity(logIntent);
+                        if (task.isSuccessful()){
+                            Toast.makeText(LoginActivity.this,"Login Successfull",Toast.LENGTH_LONG).show();
+                            Intent logIntent =  new Intent(LoginActivity.this, MainActivity.class);
+                            logIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            startActivity(logIntent);
+                        }else{
+                            Toast.makeText(LoginActivity.this,"Login Failed",Toast.LENGTH_LONG).show();
+                        }
+
+                    }
+
+                }).addOnFailureListener(LoginActivity.this, new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(LoginActivity.this,"Login Failed",Toast.LENGTH_LONG).show();
                     }
                 });
 

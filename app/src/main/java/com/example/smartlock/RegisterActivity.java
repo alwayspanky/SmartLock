@@ -53,8 +53,13 @@ public class RegisterActivity extends AppCompatActivity {
                         addOnCompleteListener(RegisterActivity.this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        Toast.makeText(RegisterActivity.this, "Registration Successfully", Toast.LENGTH_SHORT).show();
-                        progressBar.setVisibility(View.GONE);
+                        if (task.isSuccessful()){
+                            Toast.makeText(RegisterActivity.this,"Registration Successfully", Toast.LENGTH_SHORT).show();
+                            progressBar.setVisibility(View.GONE);
+
+                        }else{
+                            Toast.makeText(RegisterActivity.this, "Registration Failed", Toast.LENGTH_SHORT).show();
+                        }
 
                     }
                 });

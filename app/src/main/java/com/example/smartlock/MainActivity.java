@@ -3,6 +3,7 @@ package com.example.smartlock;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -19,13 +20,14 @@ import com.google.firebase.database.ValueEventListener;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button lock, unlock;
+    private Button lock, unlock, Logout;
     Blockchain blockchain;
     Block block;
     String LockId = "", BlockId = "";
     String UserId;
 
     DatabaseReference databaseReference;
+    DatabaseReference blockchainDatabaseReference;
     FirebaseAuth mAuth;
 
     @Override
@@ -33,11 +35,22 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Logout = findViewById(R.id.btnLogout);
         lock  = findViewById(R.id.btnLock);
         unlock = findViewById(R.id.btnUnlock);
         mAuth = FirebaseAuth.getInstance();
 
         UserId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+
+        Logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseAuth.getInstance().signOut();
+                startActivity(new Intent(MainActivity.this,LoginActivity.class));
+                finish();
+            }
+        });
 
         lock.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,9 +68,11 @@ public class MainActivity extends AppCompatActivity {
         unlock.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FirebaseDatabase database =  FirebaseDatabase.getInstance();
-                databaseReference = database.getReference("u-lock");
-                databaseReference.setValue(0);
+                databaseReference = FirebaseDatabase.getInstance().getReference("Lock-value");
+                //Adding Lockvalue
+                LockId = databaseReference.push().getKey();
+                databaseReference.child(LockId).setValue(0);
+                AddBlock();
 
             }
         });
@@ -65,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void AddBlock(){
-        databaseReference = FirebaseDatabase.getInstance().getReference("Blockchain");
+        blockchainDatabaseReference = FirebaseDatabase.getInstance().getReference("Blockchain");
         GetBlockChain();
 
     }
@@ -73,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
     public void GetBlockChain(){
         blockchain = new Blockchain(4);
 
-        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+        blockchainDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
@@ -109,8 +124,8 @@ public class MainActivity extends AppCompatActivity {
     public void AddBlockNow(){
         blockchain.addBlock(blockchain.newBlock(LockId));
         block = blockchain.latestBlock();
-        BlockId = databaseReference.push().getKey();
-        databaseReference.child(BlockId).setValue(block);
+        BlockId = blockchainDatabaseReference.push().getKey();
+        blockchainDatabaseReference.child(BlockId).setValue(block);
 
         Toast.makeText(MainActivity.this, "Value Added", Toast.LENGTH_SHORT).show();
 
